@@ -17,8 +17,10 @@
  * '01 Jan 1970 00:00:00 UTC' => 0
  * '04 Dec 1995 00:12:00 UTC' => 818035920000
  */
-function dateToTimestamp(/* date */) {
-  throw new Error('Not implemented');
+function dateToTimestamp(date) {
+  const unix = Date.parse('01 Jan 1970 00:00:00 GMT');
+  const dateTo = Date.parse(date);
+  return dateTo - unix;
 }
 
 /**
@@ -31,8 +33,20 @@ function dateToTimestamp(/* date */) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(/* date */) {
-  throw new Error('Not implemented');
+function getTime(date) {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let seconds = date.getSeconds();
+  if (hours < 10) {
+    hours = '0'.concat(hours.toString());
+  }
+  if (minutes < 10) {
+    minutes = '0'.concat(minutes.toString());
+  }
+  if (seconds < 10) {
+    seconds = '0'.concat(seconds.toString());
+  }
+  return `${hours}:${minutes}:${seconds}`;
 }
 
 /**
@@ -46,8 +60,10 @@ function getTime(/* date */) {
  * '03 Dec 1995 00:12:00 UTC' => 'Sunday'
  * '2024-01-30T00:00:00.000Z' => 'Tuesday'
  */
-function getDayName(/* date */) {
-  throw new Error('Not implemented');
+function getDayName(date) {
+  const day = new Date(date);
+  const options = { weekday: 'long' };
+  return new Intl.DateTimeFormat('en-US', options).format(day);
 }
 
 /**
@@ -61,8 +77,18 @@ function getDayName(/* date */) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const dateTo = new Date(date);
+  const friday = 5;
+  const nextFriday = new Date(date);
+  const delta = friday - dateTo.getDay();
+  if (delta >= 0) {
+    nextFriday.setDate(dateTo.getDate() + delta);
+  }
+  if (delta <= 0) {
+    nextFriday.setDate(dateTo.getDate() + 7 + delta);
+  }
+  return nextFriday;
 }
 
 /**
@@ -127,8 +153,19 @@ function isDateInPeriod(/* date, period */) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const popa = new Date(date);
+  const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+    timeZone: 'UTC',
+  };
+  return new Intl.DateTimeFormat('en-US', options).format(popa);
 }
 
 /**
