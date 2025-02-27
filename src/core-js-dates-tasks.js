@@ -186,8 +186,22 @@ function formatDate(date) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const currentMonth = month - 1;
+  const options = { weekday: 'long' };
+  let count = 0;
+  const daysInMonth = new Date(year, currentMonth + 1, 0).getDate();
+
+  for (let i = 1; i <= daysInMonth; i += 1) {
+    const date = new Date(year, currentMonth, i);
+    const strDay = new Intl.DateTimeFormat('en-US', options).format(date);
+
+    if (strDay === 'Sunday' || strDay === 'Saturday') {
+      count += 1;
+    }
+  }
+
+  return count;
 }
 
 /**
