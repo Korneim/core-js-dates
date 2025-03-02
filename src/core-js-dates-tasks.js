@@ -246,8 +246,10 @@ function getNextFridayThe13th(date) {
   let month = split.getMonth();
   let day = split.getDate();
   let year = split.getFullYear();
+  const itTrue = true;
+  let itFriday;
 
-  while (true) {
+  while (itTrue) {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let j = day; j <= daysInMonth; j += 1) {
       const currentDate = new Date(year, month, j);
@@ -256,7 +258,7 @@ function getNextFridayThe13th(date) {
       );
       if (strDay === 'Friday' && j === 13) {
         friday = currentDate;
-        return friday;
+        itFriday = friday;
       }
     }
     month += 1;
@@ -266,6 +268,7 @@ function getNextFridayThe13th(date) {
     }
     day = 1;
   }
+  return itFriday;
 }
 
 /**
